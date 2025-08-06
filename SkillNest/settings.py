@@ -71,6 +71,7 @@ SIMPLE_JWT = { #change 1
 
 DJOSER = { #change 1
     "USER_CREATE_PASSWORD_RETYPE": True,
+    'LOGIN_FIELD': 'username',
     "SEND_ACTIVATION_EMAIL": True,  # for email confirmation on signup
     "ACTIVATION_URL": "auth/activate/{uid}/{token}",
     "SERIALIZERS": {

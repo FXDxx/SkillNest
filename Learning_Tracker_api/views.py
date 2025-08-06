@@ -18,8 +18,7 @@ def show_logs(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def add_new_log(request, usr_id):
-    user_id=usr_id
+def add_new_log(request):
     date=request.data.get("date")
     topic=request.data.get("topic")
     duration=request.data.get("duration")
@@ -27,7 +26,7 @@ def add_new_log(request, usr_id):
     
 
     log_data = LearningLog.objects.create(
-        user_id=user_id,
+        user=request.user,
         date=date,
         topic=topic,
         duration=duration,
@@ -38,20 +37,18 @@ def add_new_log(request, usr_id):
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def update_log(request, usr_id):
-    try:
-        log_usr = LearningLog.objects.get(id=usr_id)
-    except LearningLog.DoesNotExist:
-        return Response({"error":"log not found"}, status=status.HTTP_404_NOT_FOUND)
-    log_usr.date=request.data.get("date")
-    log_usr.topic=request.data.get("topic")
-    log_usr.duration=request.data.get("duration")
-    log_usr.notes=request.data.get("notes")
-    log_usr.save()
+def update_log(request):
+    user = request.user
+    user.date=request.data.get("date")
+    user.topic=request.data.get("topic")
+    user.duration=request.data.get("duration")
+    user.notes=request.data.get("notes")
+    user.save()
 
     return Response({"message": "log user successfully updated"}, status=status.HTTP_200_OK)
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete_log(request):
     log_data = LearningLog.objects.all()
     if not log_data:
