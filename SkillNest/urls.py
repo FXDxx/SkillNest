@@ -23,6 +23,10 @@ urlpatterns = [
     path('auth/', include("user_authentication_api.urls")),
     path('auth/', include("djoser.urls")),
     path('auth/', include("djoser.urls.jwt")),
+    path('auth/', include('dj_rest_auth.urls')),
+    path('auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('auth/account/', include('allauth.urls')), 
     path('profile/', include("Profile_api.urls")),
     path('learninglogs/', include("Learning_Tracker_api.urls")),
+    path('blogs/', include('blog_system_api.urls')),
 ]

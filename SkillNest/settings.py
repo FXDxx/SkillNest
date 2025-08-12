@@ -38,13 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',        # Required for allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google', 
     'rest_framework', #change 1
     'rest_framework.authtoken', #change 1
     "rest_framework_simplejwt.token_blacklist",
     'djoser', #change 1
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     'user_authentication_api.apps.UserAuthenticationApiConfig', #change 2
     'Profile_api',
     'Learning_Tracker_api',
+    'blog_system_api',
 ]
 
 REST_FRAMEWORK = {
@@ -70,6 +78,7 @@ SIMPLE_JWT = { #change 1
 }
 
 DJOSER = { #change 1
+    "ACCOUNT_LOGIN_METHODS":{'email'},
     "USER_CREATE_PASSWORD_RETYPE": True,
     'LOGIN_FIELD': 'username',
     "SEND_ACTIVATION_EMAIL": True,  # for email confirmation on signup
@@ -90,6 +99,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'SkillNest.urls'
@@ -146,7 +156,36 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# For configuration of Google
+REST_USE_JWT = True  # Optional: Use JWT tokens
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_SIGNUP_FIELDS = { "username": {"required": True},
+                         "email": {"required": True}, 
+                         "password1": {"required": True}, 
+                         "password2": {"required": True}}
 
+
+
+##SOCIALACCOUNT_PROVIDERS = {
+#    'google': {
+#        'SCOPE': [
+#            'profile',
+#            'email',
+#        ],
+#        'AUTH_PARAMS': {
+#            'access_type': 'online',
+#        },
+#    }
+#}
+
+
+# Client ID and secret
+#SOCIALACCOUNT_PROVIDERS['google']['APP'] = {
+#    'client_id': '',
+#    'secret': '',
+#    'key': ''
+#}
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -168,3 +207,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#For Google OAuth intergration 
+SITE_ID = 1
