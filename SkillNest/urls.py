@@ -29,4 +29,5 @@ urlpatterns = [
     path('profile/', include("Profile_api.urls")),
     path('learninglogs/', include("Learning_Tracker_api.urls")),
     path('blogs/', include('blog_system_api.urls')),
+    path('ai/', include('ai_assistant_api.urls')),
 ]
